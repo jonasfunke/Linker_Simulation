@@ -6,7 +6,7 @@ function [ yield, p_contact] = compute_normalized_yield(ke, c_linker, d_mean, d_
     p_contact = zeros(size(d_mean));
     
     for i=1:length(d_mean)
-        p_contact(i) = colocalization_probability( d_mean(i), d_sigma, linker_mean, linker_sigma );
+        p_contact(i) = colocalization_probability_cylinder( d_mean(i), d_sigma, linker_mean, linker_sigma );
     end
     
     % normalize k0
