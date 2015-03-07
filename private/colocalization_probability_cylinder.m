@@ -16,8 +16,8 @@ function [ I ] = colocalization_probability_cylinder( d_mean, d_sigma, linker_me
     p_maleimide = @(a,z) end_to_end(sqrt(a.^2+z.^2))./N;
     
     % calculate overlap
-    coloc_prob = @(a,z) p_thiol_distance(a,z).*p_maleimide(a,z);
-    I = integral2(coloc_prob, limits(1), limits(2), limits(3), limits(4));  % use adaptive simpson to integrate
+    coloc_prob = @(a,z) p_thiol_distance(a,z).*p_maleimide(a,z).*1e10;
+    I = integral2(coloc_prob, limits(1), limits(2), limits(3), limits(4), 'AbsTol', 1e-24).*1e-10;  % use adaptive simpson to integrate
     
     %close(cur_fig)
     
