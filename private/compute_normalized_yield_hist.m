@@ -1,10 +1,12 @@
-function [ yield, p_contact] = compute_normalized_yield_hist(ke, c_linker, d_mean, d_sigma, linker_parameters )
+function [ yield, p_contact] = compute_normalized_yield_hist(ke, c_linker, d_mean, d_sigma, linker_parameters, linker_index )
 % Compute yield for varying d_mean
 
     p_contact = zeros(size(d_mean));
     
+    linker_index = max(round(linker_index), 1);
+    
     for i=1:length(d_mean)
-        p_contact(i) = colocalization_probability_cylinder_hist( d_mean(i), d_sigma, linker_parameters );
+        p_contact(i) = colocalization_probability_cylinder_hist( d_mean(i), d_sigma, linker_parameters{linker_index(i)} );
     end
     
     % normalize k0
