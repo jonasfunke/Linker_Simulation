@@ -15,9 +15,16 @@ function [ I ] = colocalization_probability_cylinder_hist( d_mean, d_sigma, p )
     
     % pdf of linker
    % end_to_end = @(r) linker_end_to_end_dist(r, linker_name);
-    end_to_end = @(r) linker_end_to_end_dist( r, p );
-    N = integral(@(r) 4*pi*r.^2.*end_to_end(r) ,0 , Inf); % normalization 
-    p_maleimide = @(a,z) end_to_end(sqrt(a.^2+z.^2))./N;
+    %end_to_end = @(r) linker_end_to_end_dist( r, p );
+    %N = integral(@(r) 4*pi*r.^2.*end_to_end(r) ,0 , Inf); % normalization 
+    %p_maleimide = @(a,z) end_to_end(sqrt(a.^2+z.^2))./N;    % old stuff
+    %p_maleimide = @(a,z) 4*pi*(a.^2+z.^2).*end_to_end(sqrt(a.^2+z.^2))./N;
+    
+    
+    N = integral(@(x) linker_end_to_end_dist(x, p) ,0 , Inf); % normalization int 4 pi r2 dr  p_endtoend / (4 pi r2) 
+    prob_density = @(r) linker_end_to_end_dist( r, p )./N./(4.*pi.*r.^2);
+    p_maleimide = @(a,z) prob_density(sqrt(a.^2+z.^2));    % old stuff
+    
     
     % calculate overlap
     coloc_prob = @(a,z) p_thiol_distance(a,z).*p_maleimide(a,z).*1e10;
